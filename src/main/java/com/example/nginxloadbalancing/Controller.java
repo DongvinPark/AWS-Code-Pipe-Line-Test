@@ -19,4 +19,9 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body("test success");
   }
 
+  @PostMapping("/test-api2")
+  public ResponseEntity<String> test2 () {
+    return ResponseEntity.status(HttpStatus.OK).body("test 2 success");
+  }
+
 }
