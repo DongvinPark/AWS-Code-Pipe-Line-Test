@@ -1,11 +1,11 @@
 version: 0.2
 
-env:
-  variables:
-    AWS_DEFAULT_REGION: ap-northeast-1
-    AWS_ACCOUNT_ID: xxxxxxxxxx
-    IMAGE_REPO_NAME: nginx-fargate
-    IMAGE_TAG: latest
+#env:
+#  variables:
+#    AWS_DEFAULT_REGION: ap-northeast-1
+#    AWS_ACCOUNT_ID: xxxxxxxxxx
+#    IMAGE_REPO_NAME: nginx-fargate
+#    IMAGE_TAG: latest
 
 phases:
   build:
