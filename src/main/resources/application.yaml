@@ -6,9 +6,9 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:postgresql://${DB_HOST_URL}/${DB_INSTANCE_NAME}
-    username: ${DB_USER_NAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://mytestdb.cmwq7didtr7s.ap-northeast-2.rds.amazonaws.com/postgres
+    username: postgres
+    password: 12345678
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
