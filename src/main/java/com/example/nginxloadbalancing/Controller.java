@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class Controller {
 
-  private final TestRepository testRepository;
-
   @GetMapping("/")
   public ResponseEntity<String> healthCheck () {
     return ResponseEntity.status(HttpStatus.OK).body("healty");
@@ -26,17 +24,6 @@ public class Controller {
   @PostMapping("/test-api2")
   public ResponseEntity<String> test2 () {
     return ResponseEntity.status(HttpStatus.OK).body("test 2 success");
-  }
-
-  @GetMapping("/db-test")
-  public String saveTestEntity(){
-    TestEntity savedEntity = testRepository.save(
-        TestEntity.builder()
-            .name("dongvin")
-            .build()
-    );
-
-    return "Save Entity name : " + savedEntity.getName();
   }
 
 }
