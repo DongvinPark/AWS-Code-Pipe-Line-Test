@@ -1,5 +1,6 @@
 package com.example.nginxloadbalancing;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class Controller {
+
+  private final TestRepository testRepository;
 
   @GetMapping("/")
   public ResponseEntity<String> healthCheck () {
@@ -22,6 +26,17 @@ public class Controller {
   @PostMapping("/test-api2")
   public ResponseEntity<String> test2 () {
     return ResponseEntity.status(HttpStatus.OK).body("test 2 success");
+  }
+
+  @GetMapping("/db-test")
+  public String saveTestEntity(){
+    TestEntity savedEntity = testRepository.save(
+        TestEntity.builder()
+            .name("dongvin")
+            .build()
+    );
+
+    return "Save Entity name : " + savedEntity.getName();
   }
 
 }
