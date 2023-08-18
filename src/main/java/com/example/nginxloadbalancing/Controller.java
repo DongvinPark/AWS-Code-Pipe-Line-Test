@@ -39,4 +39,6 @@ public class Controller {
     return "Save Entity name : " + savedEntity.getName();
   }
 
+  // make git repository private
+
 }
