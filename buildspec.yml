@@ -7,6 +7,10 @@ phases:
       - docker build -t ${IMAGE_REPO_URI}:latest .
       - docker tag ${IMAGE_REPO_URI}:latest ${IMAGE_REPO_URI}:${IMAGE_TAG}
       - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest
+      - printf '{"ImageURI":"%s"}' ${IMAGE_REPO_URI}:${IMAGE_TAG} > imageDetail.json
+      -  cat imageDetail.json
+      - cat /taskdef.json | sed -e "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" > taskdef.json
+      -  cat /appspec.yaml > appspec.yaml
 
 artifacts:
   files:
