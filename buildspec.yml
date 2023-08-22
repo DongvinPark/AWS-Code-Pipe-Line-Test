@@ -3,6 +3,10 @@ version: 0.2
 phases:
   build:
     commands:
+      # 아래의 명령어를 통해서 s3의 dongvin-env-file라는 버킷 내의 files 라는 디렉토리 내의 application.yaml을 다운로드 받을 수 있게 된다.
+      - aws s3api get-object --bucket dongvin-env-files --key files/application.yaml application.yaml
+      #여기서는 다운로드 받은 야믈 파일을 적절한 디렉토리 내부에 삽입시켜주는 명령어를 써야 한다.
+      - cp -r application.yaml srt/main/resources
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
       - docker build -t ${IMAGE_REPO_URI}:latest .
       - docker tag ${IMAGE_REPO_URI}:latest ${IMAGE_REPO_URI}:${IMAGE_TAG}
