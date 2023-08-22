@@ -8,7 +8,7 @@ phases:
       #여기서는 다운로드 받은 야믈 파일을 적절한 디렉토리 내부에 삽입시켜주는 명령어를 써야 한다.
       - cp -r application.yaml src/main/resources
       - rm application.yaml
-      - ls /src/main/resources
+      - ls src/main/resources
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
       - docker build -t ${IMAGE_REPO_URI}:latest .
       - docker tag ${IMAGE_REPO_URI}:latest ${IMAGE_REPO_URI}:${IMAGE_TAG}
