@@ -4,7 +4,7 @@ phases:
   build:
     commands:
       # 기존에 존재하는 빈 yaml파일을 삭제한다.
-      - rm test/subtest/application.yaml
+      - rm src/main/resources/application.yaml
       # 아래의 명령어를 통해서 s3의 dongvin-env-file라는 버킷 내의 files 라는 디렉토리 내의 application.yaml을 다운로드 받을 수 있게 된다.
       - aws s3api get-object --bucket dongvin-env-files --key files/application.yaml application.yaml
       #여기서는 다운로드 받은 야믈 파일을 적절한 디렉토리 내부에 삽입시켜준다.
