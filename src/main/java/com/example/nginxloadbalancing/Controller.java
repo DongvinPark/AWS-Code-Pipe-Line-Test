@@ -1,44 +1,27 @@
 package com.example.nginxloadbalancing;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class Controller {
 
-  private final TestRepository testRepository;
+  @Value("${test.string}")
+  private String testValueFromInjectedYml;
 
   @GetMapping("/")
   public ResponseEntity<String> healthCheck () {
     return ResponseEntity.status(HttpStatus.OK).body("healty");
   }
 
-  @PostMapping("/test-api")
+  @GetMapping("/test-api")
   public ResponseEntity<String> test () {
-    return ResponseEntity.status(HttpStatus.OK).body("test success");
+    return ResponseEntity.status(HttpStatus.OK).body(testValueFromInjectedYml);
   }
-
-  @PostMapping("/test-api2")
-  public ResponseEntity<String> test2 () {
-    return ResponseEntity.status(HttpStatus.OK).body("test 2 success");
-  }
-
-  @GetMapping("/db-test")
-  public String saveTestEntity(){
-    TestEntity savedEntity = testRepository.save(
-        TestEntity.builder()
-            .name("dongvin")
-            .build()
-    );
-
-    return "Save Entity name : " + savedEntity.getName();
-  }
-
-  // make git repository private
 
 }
