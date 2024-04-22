@@ -21,7 +21,7 @@ public class Controller {
 
   @GetMapping("/test-api")
   public ResponseEntity<String> test () {
-    return ResponseEntity.status(HttpStatus.OK).body(testValueFromInjectedYml);
+    return ResponseEntity.status(HttpStatus.OK).body(testValueFromInjectedYml + " and my new TEXT from new github Commit!!");
   }
 
 }
