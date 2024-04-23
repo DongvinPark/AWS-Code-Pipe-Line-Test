@@ -40,7 +40,7 @@
 - 기본 VPC 내부에서 서브넷 2 개의 아이디 확인
 - 이 값들은 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 사용됩니다.
   <img width="826" alt="06 - 기본 VPC 내부에서 서브넷 아이디 두 개 확인" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1c03c31e-292a-4298-84eb-06ef81ffcaa0">
-- [자습서](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html) 안내에 따라서 ALB 만들고, 대상그룹 2개 설정해주기
+- [자습서의 해당 부분](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-loadbal)의 안내에 따라서 ALB 만들고, 대상그룹 2개 설정해주기
   <img width="612" alt="07 - AWS의 자습서에서 안내하는대로 ALB 만들고 대상그룹 2개 셋팅하기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/97d6e3d5-2831-447c-aebf-6a340c585862">
 - ALB 설정 세부사항 이미지
   <img width="741" alt="08 - ALB 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1b412c07-584f-4cf7-b82d-c7defde5ad89">
@@ -66,6 +66,28 @@
   <img width="930" alt="14 - AWS CLI 이용해서 ECS 내 서비스 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/37587cfc-244b-4070-8c00-3c11f952c9ab">
 
 <br>
+
+### CodeDeploy Application 생성
+
+- 아래와 같이 CodeDeploy Application을 생성해줍니다.
+  <img width="567" alt="15 - Code Deploy 애플리케이션 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/3d5cb57f-bb1c-4c7c-8d90-5d9b29ed3c4d">
+- 그 후 해당 Application 내에서 배포그룹을 만들어줍니다.
+- 배포 그룹을 만드는 과정에서 필요한 CodeDeployECSRole을 선택해줍니다. 없을 경우, [자습서의 해당 부분](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-deployment)을 참고하여 새로 만들어준 후 선택해줍니다.
+  <img width="568" alt="16 - 배포 그룹 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/ffc16eea-da2d-4aee-acd8-bf7d2e65de95">
+  <img width="559" alt="17 - 배포 그룹 설정 2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/27ead182-a03b-4390-941a-d6ad63afc35d">
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
