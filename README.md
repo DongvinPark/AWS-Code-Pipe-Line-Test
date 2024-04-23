@@ -1,5 +1,5 @@
-# 스프링부트 & AWS CI / CD 파이프라인 구축
-## with AWS CodePipeline, CodeDeploy, Elastic Container Service
+# AWS에서 스프링부트 CI / CD 파이프라인 구축하기
+### CodePipeline, CodeBuild, CodeDeploy, Elastic Container Service 사용
 ### 깃허브 커밋 후 즉시 도커 이미지를 빌드하고, ECS에 Blue/Green 배포합니다.
 ### application.yml 파일은 S3에 저장돼 있어서 외부에 공개되지 않습니다.
 <br><br/>
