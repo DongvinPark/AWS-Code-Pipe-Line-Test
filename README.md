@@ -33,4 +33,34 @@
 - 해당 파일은 CopePipeline의 배포 스테이지에서 사용됩니다.
   <img width="603" alt="05 - ECS Task Execution Role을 준비" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/229de8bf-d1d7-44b1-a941-a2a4e9f080a3">
 
-### 2. 
+<br>
+
+### 2. Application Load Balancer 셋팅하기
+
+- 기본 VPC 내부에서 서브넷 2 개의 아이디 확인
+- 이 값들은 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 사용됩니다.
+  <img width="826" alt="06 - 기본 VPC 내부에서 서브넷 아이디 두 개 확인" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1c03c31e-292a-4298-84eb-06ef81ffcaa0">
+- [자습서](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html) 안내에 따라서 ALB 만들고, 대상그룹 2개 설정해주기
+  <img width="612" alt="07 - AWS의 자습서에서 안내하는대로 ALB 만들고 대상그룹 2개 셋팅하기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/97d6e3d5-2831-447c-aebf-6a340c585862">
+- ALB 설정 세부사항 이미지
+  <img width="741" alt="08 - ALB 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1b412c07-584f-4cf7-b82d-c7defde5ad89">
+  <img width="739" alt="09 - ALB 설정2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/6f83c7d5-1e83-42f6-a87f-2a037b4d47b0">
+- ALB 80 포트 리스너에 target-group-1를, 8080 포트에 target-group-2를 생성하여 지정
+- 바로 위의 이미지에서 [대상 그룹 생성]()이라는 링크를 클릭하면 됩니다.
+  <img width="734" alt="10 - 대상그룹 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/3cdcd44e-7a05-4aa0-8e14-85ff5186679b">
+  <img width="748" alt="11 - ALB 설정2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/9ffbb9ca-c8f7-405b-b033-5f81af1ac4bb">
+- ALB가 사용하는 보안그룹에 80, 8080 포트 인바운드 규칙 추가 & Security Group ID 기록
+- ALB가 사용하는 보안그룹의 아이디는 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 필요합니다.
+  <img width="682" alt="38 - ALB 보안그룹에 80 과 8080 포트 인바운드 규칙 추가 필수" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/60c968e7-f34d-4595-a4ec-869069b39753">
+
+### 3. ECS 클러스터
+
+- Fargate 옵션을 선택한 후 ECS 클러스터 생성
+  <img width="549" alt="11 - ECS 클러스터 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/d75752c1-42cf-4001-9446-18a102140957">
+
+<br>
+
+
+
+
+
