@@ -53,10 +53,17 @@
 - ALB가 사용하는 보안그룹의 아이디는 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 필요합니다.
   <img width="682" alt="38 - ALB 보안그룹에 80 과 8080 포트 인바운드 규칙 추가 필수" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/60c968e7-f34d-4595-a4ec-869069b39753">
 
-### 3. ECS 클러스터
+### 3. ECS 클러스터 & 서비스 생성
 
 - Fargate 옵션을 선택한 후 ECS 클러스터 생성
   <img width="549" alt="11 - ECS 클러스터 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/d75752c1-42cf-4001-9446-18a102140957">
+- AWS 커맨드로 ECS Service 생성
+- ALB를 만들면서 기록해놓은 정보로 create-service.json 파일을 만들고, AWS CLI로 ECS Service를 만듭니다.
+- json파일의 targetGroupArn 필드는 앞단계에서 만든 target-group-1 대상그룹의 ARN을 입력하면 됩니다.
+- subnets 필드는 앞서 기록해 놓은 서브넷 아이디 2개를 입력하고, securityGroups 필드는 ALB가 사용하는 보안그룹 아이디를 입력합니다.
+  <img width="707" alt="12 - ECS 클러스터 내 서비스 만들 때 필요한 대상그룹 ARN 확인하는 곳" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/ef2da285-4caf-4141-9873-ea52deb09ade">
+  <img width="858" alt="13 - ECS 서비스 만들기 위한 json 정의" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/faa63fed-f9e9-41c6-a24d-23a4cde23ec9">
+  <img width="930" alt="14 - AWS CLI 이용해서 ECS 내 서비스 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/37587cfc-244b-4070-8c00-3c11f952c9ab">
 
 <br>
 
