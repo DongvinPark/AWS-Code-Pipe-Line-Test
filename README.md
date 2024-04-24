@@ -147,10 +147,65 @@ artifacts:
 - IMAGE_TAG는 latest를,
 - ECR_REPOSITORY_NAME은 앞 단계에서 만든 ECR 리포지토리의 이름을 입력하고, 5 가지 환경변수의 유형은 전부 '일반 텍스트'로 선택해줍니다.
   <img width="672" alt="27 - 파이프라인 빌드 단계에서 빼먹었던 환경 변수 추가" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/b13c49bb-fe87-450c-94b6-58db07407ff9">
-- 그 후, '다음'을 눌러서 배포 스테이지로 넘어값니다.
+- 그 후, '다음'을 눌러서 배포 스테이지로 넘어갑니다.
 
+<br>
 
+### 7. CodePipeline 생성 - 배포 스테이지
 
+- '배포 공급자'를 Amazon ECS(Blue/Green)으로 정확하게 선택해줍니다.
+- 그 후, 앞 단계에서 만들어둔 CodeDeploy Application과 배포 그룹을 선택해줍니다.
+- Amazon ECS 작업 정의 부분과 AWS CodeDeploy AppSpec 파일 부분은 아래의 이미지와 같이 선택 또는 입력해줍니다.
+- '이미지 세부 정보가 있는 입력 아티팩트'는 BuildArtifact를 선택해주고,
+- 작업 정의의 자리 표시자 텍스트는 아래의 [taskdef.json](https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/blob/master/scripts/taskdef.json)파일의 image 필드의 값인 IMAGE1_NAME과 동일하게 입력해줍니다. 반드시 서로 일치해야 배포가 성공합니다.
+```json
+{
+  "executionRoleArn": "arn:aws:iam::846906946119:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "sample-website",
+      "image": "<IMAGE1_NAME>",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ]
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "family": "ecs-demo"
+}
+```
+<img width="568" alt="28 - 파이프라인 배포 단계 만들 때, ECS BlueGreen 선택하고 자리 정의의 자리 표시자 텍스트 잘 입력하기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/052cc70c-6474-4a31-b15f-5d2040e68260">
+
+### 8. AWS CodePipeline 완성 & CI/CD 작동 테스트
+
+- 파이프라인이 최초로 생성되면, 그 직후 파이프라인이 작동을 시작합니다.
+  <img width="634" alt="29 - 파이프라인 실행중" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/f71809de-fcc3-4298-8a6f-197c0a30e4ab">
+- 소스 & 빌드 단계 성공 후 배포 단계가 실행 중일 때, 배포 단계의 작업 실행 세부 정보를 보면, 'CodeDeployToEcs에서 보기'를 선택합니다.
+- 그러면 현재 진행 중인 배포 스테이지를 더 자세하게 모니터링 할 수 있습니다.
+  <img width="598" alt="30 - 파이프라인 배포 단계 세부 정보 보기 선택 후 CodeDeployToEcs 에서 보기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/c5590d16-65ef-4ee3-8a87-0aab5f0edebc">
+  <img width="633" alt="31 - 배포 완료 후 대기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/fbb527c2-814f-408f-9351-e95058db82d3">
+- 첫 번째 배포가 완료된 후, Postman API 테스터로 컨테이너가 잘 작동하는지 테스트 합니다.
+  <img width="588" alt="32 - 배포 완료 후 ALB DNS로 테스트 성공" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/3ac534ff-e502-40f6-9d87-e1930cc9a1dd">
+- 배포가 완료되면 아래와 같은 이미지를 확인할 수 있습니다.
+  <img width="619" alt="33 - 배포 완료 후 코드디플로이 작업 상태" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/4845364e-f730-4838-969f-96666edeb278">
+- 로컬 스프링부트 프로젝트에 새로운 커밋을 추가하고 원격 리포지토리에 푸시합니다.
+  <img width="843" alt="34 - 스프링 프로젝트에 새 깃허브 커밋 추가" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/620986c3-46d9-490f-9691-de0168cbd157">
+- 푸시 후 몇 초 지나지 않아서 AWS CodePipeline으로 만든 CI/CD 파이프라인이 작동을 시작합니다.
+  <img width="648" alt="35 - 새 커밋 푸시 후 파이프라인 자동 작동" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/82c33f99-99e1-48c0-be98-cc2b65dca87b">
+- 새로운 컨테이너가 트래픽을 받는 중이고, 이때 Postman을 이용해서 새로운 커밋이 잘 배포 됐는지 확인합니다.
+  <img width="618" alt="36 - 새 배포 후 새로운 인스턴스가 트래픽 담당하는 모습 확인" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/46c7781a-c33e-4788-9432-401b6a42df39">
+- CI/CD 파이프라인에 의해서 새로운 커밋이 잘 배포 됐음을 확인할 수 있습니다!
+  <img width="584" alt="37 - 새 배포 후 ALB DNS로 트래픽 라우팅 성공" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/f63f19da-bc1d-4a20-90d2-9975a0fcff9d">
 
 
 
