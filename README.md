@@ -40,7 +40,7 @@
 - 기본 VPC 내부에서 서브넷 2 개의 아이디 확인 후 기록해둡니다.
 - 이 값들은 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 사용됩니다.
   <img width="826" alt="06 - 기본 VPC 내부에서 서브넷 아이디 두 개 확인" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1c03c31e-292a-4298-84eb-06ef81ffcaa0">
-- [자습서의 해당 부분](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-loadbal)의 안내에 따라서 ALB 만들고, 대상그룹 2개 설정해주기
+- [자습서의 해당 부분](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-loadbal)의 안내에 따라서 ALB 만들고, 대상그룹 2개를 설정해줍니다.
   <img width="612" alt="07 - AWS의 자습서에서 안내하는대로 ALB 만들고 대상그룹 2개 셋팅하기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/97d6e3d5-2831-447c-aebf-6a340c585862">
 - ALB 설정 세부사항 이미지는 아래와 같습니다.
   <img width="741" alt="08 - ALB 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1b412c07-584f-4cf7-b82d-c7defde5ad89">
