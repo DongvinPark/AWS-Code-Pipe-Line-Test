@@ -67,7 +67,7 @@
 
 <br>
 
-### CodeDeploy Application 생성
+### 4. CodeDeploy Application 생성
 
 - 아래와 같이 CodeDeploy Application을 생성해줍니다.
   <img width="567" alt="15 - Code Deploy 애플리케이션 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/3d5cb57f-bb1c-4c7c-8d90-5d9b29ed3c4d">
@@ -78,6 +78,76 @@
 
 <br>
 
+### 5. CodePipeline 생성 - 소스 스테이지
+
+- 현재의 스프링부트 프로젝트를 로컬에 클론한 후, 각자의 깃허브 리포지토리에 푸시해 놓습니다.
+- CodePipeline 콘솔에 접속하여 파이프라인 생성을 클릭합니다.
+- 파이프라인 설정을 아래의 이미지와 같이 셋팅해준 후 '다음'을 클릭합니다.
+- '서비스 역할' 부분에서 예전에 파이프라인을 만든 적이 있다면 해당 Role을 선택하고, 없다면, 'AWS CodePipeline이 새 파이프라인에 사용할 서비스 역할을 생성하도록 허용'이라는 부분에 체크를 해 줍니다.
+  <img width="726" alt="18 - 파이프라인 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1fd08df5-f8db-443b-a5e4-b88b8a2e92c2">
+- 소스 스테이지 설정에 진입한 후, CodePipeline에서 깃허브에 연결할 수 있도록 설정해줍니다.
+  <img width="917" alt="19 - 파이프라인 설정 2 깃헙 연결" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/f8e4aafc-82da-4cb4-95df-ad0d2ab5c0de">
+- 깃허브 연결 애플리케이션이 이미 있다면 해당 앱을 선택하고, 없다면 아래의 과정을 거쳐서 새로 만들어줍니다.
+- AWS와 깃허브 리포지토리의 연결이 완료되었다면, 배포 대상 브랜치를 정확하게 선택해줍니다.
+  <img width="868" alt="20 - 파이프라인 설정 2 깃헙 연결 앱 선택 없다면 새 앱 설치" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/625a7b69-56a2-436e-bcdd-9535f3378eff">
+  <img width="726" alt="21 - 파이프라인 설정 2 깃헙 리포지토리와 브랜치 연동 완료" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1a74ca5a-1bc3-493a-b2af-7fce6a737b8f">
+- '다음'을 눌러서 빌드 스테이지로 넘어갑니다.
+
+<br>
+
+### 6. CodePipeline 생성 - 빌드 스테이지
+
+- 빌드 스테이지 구성 화면에서 우선 '프로젝트 생성'을 클릭하여 AWS CodeBuild 내의 build project 생성 화면에 진입합니다.
+- '환경 이미지'는 ubuntu 또는 Amazon Linux로 선택합니다.
+- '역할 ARN'은 기존에 만들어 둔 것이 있을 경우 그것을 선택하고, 없을 경우 '새 서비스 역할'을 선택합니다.
+- Buildspec 파트에서 'buildspec 파일 사용'을 클릭해줍니다.
+- 본 스프링부트 프로젝트의 루트 디렉토리에는 buildspec.yml 파일이 들어 있는데, 바로 이 파일을 사용하여 AWS CodeBuild가 배포용 도커 이미지를 빌드하게 됩니다.
+- 'BuildSpec 이름 - 선택사항' 부분은 buildspec.yml 파일의 이름을 적어줘야 합니다. 프로젝트 루트 디렉토리에 있을 경우 그냥 buildspec.yml 이라고 적어주면 되지만, 예를 들어서 프로젝트 내 abc 디렉토리 내부에 있다면 abc/buildspec.yml 이런 식으로 디렉토리를 정확히 적어줘야 합니다.
+- 빌드 작업의 로그를 보고 싶다면 S3의 별도 버킷에 로그를 저장하도록 설정해줄 수 있습니다.
+  <img width="570" alt="22 - 파이프라인 빌드 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/6a654511-bb6d-4868-9f4c-85df81626e4a">
+  <img width="530" alt="23 - 파이프라인 빌드 설정 2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/a7f3e1cb-1c8e-4409-9a48-ded6e5bc0eff">
+- 빌드 프로젝트 생성이 완료 되었다면 아래의 이미지와 같이 빌드 프로젝트 생성 완료 메시지를 확인할 수 있습니다.
+  <img width="555" alt="40 - 빌드 프로젝트 생성 완료 이미지" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/a59b29f2-63c9-41b6-a332-d54a782ec0f1">
+- 그 후 입역 아티팩트에서 SourceArtifact를 선택해주고, 환경 변수들을 주입해줍니다.
+- 현재 스프링부트 프로젝트의 [buildspec.yml](https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/blob/master/buildspec.yml) 파일을 보면 ${...}로 표시된 텍스트들이 있는데, CodeBuild 가 빌드 작업을 진행하면서 사용하는 명령어들을 구성하는 텍스트들입니다.
+- 이 텍스트들에 값을 주입해주기 위한 것입니다.
+```yaml
+version: 0.2
+
+phases:
+  build:
+    commands:
+      # 기존에 존재하는 빈 yaml파일을 삭제한다.
+      - rm src/main/resources/application.yaml
+      # 아래의 명령어를 통해서 s3의 dongvin-env-file라는 버킷 내의 files 라는 디렉토리 내의 application.yaml을 다운로드 받을 수 있게 된다.
+      - aws s3api get-object --bucket dongvin-env-files --key files/application.yaml application.yaml
+      #여기서는 다운로드 받은 야믈 파일을 적절한 디렉토리 내부에 삽입시켜준다.
+      - cp -r application.yaml src/main/resources
+      - rm application.yaml
+      - ls src/main/resources
+      - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+      - docker build -t ${IMAGE_REPO_URI}:latest .
+      - docker tag ${IMAGE_REPO_URI}:latest ${IMAGE_REPO_URI}:${IMAGE_TAG}
+      - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest
+      - printf '{"ImageURI":"%s"}' ${IMAGE_REPO_URI}:${IMAGE_TAG} > imageDetail.json
+      - cat imageDetail.json
+      - cat scripts/taskdef.json | sed -e "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" > taskdef.json
+      - cat scripts/appspec.yaml > appspec.yaml
+
+artifacts:
+  files:
+    - imageDetail.json
+    - taskdef.json
+    - appspec.yaml
+```
+- 환경변수들을 아래의 이미지와 같이 5 가지를 주입해줍니다.
+- AWS_DEFAULT_REGION 은 현재 만들고 있는 파이프라인이 존재하는 리전의 이름을,
+- AWS_ACCOUNT_ID는 루트 계정의 아이디 12자리 숫자를,
+- IMAGE_REPO_URI는 앞 단계에서 만든 ECR 리포지토리의 URI를,
+- IMAGE_TAG는 latest를,
+- ECR_REPOSITORY_NAME은 앞 단계에서 만든 ECR 리포지토리의 이름을 입력하고, 5 가지 환경변수의 유형은 전부 '일반 텍스트'로 선택해줍니다.
+  <img width="672" alt="27 - 파이프라인 빌드 단계에서 빼먹었던 환경 변수 추가" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/b13c49bb-fe87-450c-94b6-58db07407ff9">
+- 그 후, '다음'을 눌러서 배포 스테이지로 넘어값니다.
 
 
 
