@@ -194,7 +194,7 @@ artifacts:
   <img width="634" alt="29 - 파이프라인 실행중" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/f71809de-fcc3-4298-8a6f-197c0a30e4ab">
 - 소스 & 빌드 단계 성공 후 배포 단계가 실행 중일 때, 배포 단계의 '세부 정보 보기'를 클릭한 후, 'CodeDeployToEcs에서 보기'를 선택합니다.
 - 그러면 현재 진행 중인 배포 스테이지를 더 자세하게 모니터링 할 수 있습니다.
-- '배포 상태'화면에서 3 단계가 완료되고 나면 트래픽이 실제로 배포 된 컨테이너로 전달되기 때문에 API 테스트를 진행할 수 있습니다.
+- '배포 상태'화면에서 3 단계가 완료되면 API 테스트를 진행할 수 있습니다.
   <img width="598" alt="30 - 파이프라인 배포 단계 세부 정보 보기 선택 후 CodeDeployToEcs 에서 보기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/c5590d16-65ef-4ee3-8a87-0aab5f0edebc">
   <img width="633" alt="31 - 배포 완료 후 대기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/fbb527c2-814f-408f-9351-e95058db82d3">
 - 첫 번째 배포가 완료된 후, Postman API 테스터로 컨테이너가 잘 작동하는지 테스트 합니다.
