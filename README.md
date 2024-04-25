@@ -45,13 +45,15 @@
 - ALB 설정 세부사항 이미지는 아래와 같습니다.
   <img width="741" alt="08 - ALB 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/1b412c07-584f-4cf7-b82d-c7defde5ad89">
   <img width="739" alt="09 - ALB 설정2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/6f83c7d5-1e83-42f6-a87f-2a037b4d47b0">
-- ALB 80 포트 리스너에 target-group-1를, 8080 포트에 target-group-2를 생성하여 지정합니다.
+- ALB 80 포트 리스너에 target-group-1을, 8080 포트에 target-group-2를 생성하여 지정합니다.
 - 바로 위의 이미지에서 [대상 그룹 생성]()이라는 링크를 클릭하면 됩니다.
   <img width="734" alt="10 - 대상그룹 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/3cdcd44e-7a05-4aa0-8e14-85ff5186679b">
   <img width="748" alt="11 - ALB 설정2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/9ffbb9ca-c8f7-405b-b033-5f81af1ac4bb">
-- ALB가 사용하는 보안그룹에 80, 8080 포트 인바운드 규칙을 추가하고 Security Group ID 기록합니다.
-- ALB가 사용하는 보안그룹의 아이디는 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 필요합니다.
+- ALB가 사용하는 보안그룹에 80, 8080 포트 인바운드 규칙을 추가하고 Security Group ID를 기록합니다.
+- ALB가 사용하는 보안그룹의 아이디는 추후 ECS 내 Service를 만들 때 필요한 json 파일을 정의할 때 사용됩니다.
   <img width="682" alt="38 - ALB 보안그룹에 80 과 8080 포트 인바운드 규칙 추가 필수" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/60c968e7-f34d-4595-a4ec-869069b39753">
+
+<br>
 
 ### 3. ECS 클러스터 & 서비스 생성
 
@@ -71,7 +73,7 @@
 
 - 아래와 같이 CodeDeploy Application을 생성해줍니다.
   <img width="567" alt="15 - Code Deploy 애플리케이션 생성" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/3d5cb57f-bb1c-4c7c-8d90-5d9b29ed3c4d">
-- 그 후 해당 Application 내에서 배포그룹을 만들어줍니다.
+- 그 후 해당 Application 내에서 배포 그룹을 만들어줍니다.
 - 배포 그룹을 만드는 과정에서 필요한 CodeDeployECSRole을 선택해줍니다. 없을 경우, [자습서의 해당 부분](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-deployment)을 참고하여 새로 만들어준 후 선택해줍니다.
   <img width="568" alt="16 - 배포 그룹 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/ffc16eea-da2d-4aee-acd8-bf7d2e65de95">
   <img width="559" alt="17 - 배포 그룹 설정 2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/27ead182-a03b-4390-941a-d6ad63afc35d">
@@ -106,11 +108,11 @@
 - 빌드 작업의 로그를 보고 싶다면 S3의 별도 버킷에 로그를 저장하도록 설정해줄 수 있습니다.
   <img width="570" alt="22 - 파이프라인 빌드 설정 1" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/6a654511-bb6d-4868-9f4c-85df81626e4a">
   <img width="530" alt="23 - 파이프라인 빌드 설정 2" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/a7f3e1cb-1c8e-4409-9a48-ded6e5bc0eff">
-- 빌드 프로젝트 생성이 완료 되었다면 아래의 이미지와 같이 빌드 프로젝트 생성 완료 메시지를 확인할 수 있습니다.
+- 빌드 프로젝트 생성이 완료 되었다면 아래와 같이 빌드 프로젝트 생성 완료 메시지를 확인할 수 있습니다.
   <img width="555" alt="40 - 빌드 프로젝트 생성 완료 이미지" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/a59b29f2-63c9-41b6-a332-d54a782ec0f1">
 - 그 후 입역 아티팩트에서 SourceArtifact를 선택해주고, 환경 변수들을 주입해줍니다.
 - 현재 스프링부트 프로젝트의 [buildspec.yml](https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/blob/master/buildspec.yml) 파일을 보면 ${...}로 표시된 텍스트들이 있는데, CodeBuild 가 빌드 작업을 진행하면서 사용하는 명령어들을 구성하는 텍스트들입니다.
-- 이 텍스트들에 값을 주입해주기 위한 것입니다.
+- 이 텍스트들에 값을 주입하기 위한 것입니다.
 ```yaml
 version: 0.2
 
@@ -190,8 +192,9 @@ artifacts:
 
 - 파이프라인이 최초로 생성되면, 그 직후 파이프라인이 작동을 시작합니다.
   <img width="634" alt="29 - 파이프라인 실행중" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/f71809de-fcc3-4298-8a6f-197c0a30e4ab">
-- 소스 & 빌드 단계 성공 후 배포 단계가 실행 중일 때, 배포 단계의 작업 실행 세부 정보를 보면, 'CodeDeployToEcs에서 보기'를 선택합니다.
+- 소스 & 빌드 단계 성공 후 배포 단계가 실행 중일 때, 배포 단계의 '세부 정보 보기'를 클릭한 후, 'CodeDeployToEcs에서 보기'를 선택합니다.
 - 그러면 현재 진행 중인 배포 스테이지를 더 자세하게 모니터링 할 수 있습니다.
+- '배포 상태'화면에서 3 단계가 완료되고 나면 트래픽이 실제로 배포 된 컨테이너로 전달되기 때문에 API 테스트를 진행할 수 있습니다.
   <img width="598" alt="30 - 파이프라인 배포 단계 세부 정보 보기 선택 후 CodeDeployToEcs 에서 보기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/c5590d16-65ef-4ee3-8a87-0aab5f0edebc">
   <img width="633" alt="31 - 배포 완료 후 대기" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/fbb527c2-814f-408f-9351-e95058db82d3">
 - 첫 번째 배포가 완료된 후, Postman API 테스터로 컨테이너가 잘 작동하는지 테스트 합니다.
@@ -206,15 +209,3 @@ artifacts:
   <img width="618" alt="36 - 새 배포 후 새로운 인스턴스가 트래픽 담당하는 모습 확인" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/46c7781a-c33e-4788-9432-401b6a42df39">
 - CI/CD 파이프라인에 의해서 새로운 커밋이 잘 배포 됐음을 확인할 수 있습니다!
   <img width="584" alt="37 - 새 배포 후 ALB DNS로 트래픽 라우팅 성공" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/f63f19da-bc1d-4a20-90d2-9975a0fcff9d">
-
-
-
-
-
-
-
-
-
-
-
-
