@@ -2,6 +2,7 @@
 ### CodePipeline, CodeBuild, CodeDeploy, Elastic Container Service 사용
 ### 깃허브 커밋 후 즉시 도커 이미지를 빌드하고, ECS에 Blue/Green 배포를 진행합니다.
 ### application.yml 파일은 S3에 저장돼 있어서 외부에 공개되지 않습니다.
+### AWS에서 제공하는 자습서([링크](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html))를 활용했습니다.
 <br><br/>
 ## 배포 아키텍처 & 진행 순서
 <img width="899" alt="39 - 배포 아키텍처 그림" src="https://github.com/DongvinPark/AWS-Code-Pipe-Line-Test/assets/99060708/ce028e27-e6ae-4759-a21b-e0553b204a68">
