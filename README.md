@@ -24,7 +24,7 @@
   - ALB에는 8080 리스너와 8081 리스너를 따로따로 만들어줍니다. 
   - 대상 그룹 1 : ALB의 8080 리스너에 붙입니다. 대상 그룹의 프로토콜과 포트는 HTTP/8080 입니다.
   - 대상 그룹 2 : ALB의 8081 리스너에 붙입니다. 이때, 대상 그룹 내의 프로토콜과 포트는 똑같이 HTTP/8080 입니다. 여기서 괜히 8081로 설정하는 순간, 대상 그룹 2에 등록된 스프링 컨테이너는 8080에서 도는데 대상 그룹이 헬스체크를 8081 포트로 시도하면서 failed 됩니다. 그러면 ECS 서비스에서는 배포 실패로 판단하고 새 컨테이너를 올립니다. 그러나 새 컨테이너도 헬스체크에 실패하는건 마찬가지 이므로 ECS 가 새 태스크 및 컨테이너 생성 -> 헬스체크 실패 -> 기존 태스크 및 컨테이너 종료 후 새로운 태스크 및 컨테이너 생성이라는 무한 루프를 돌게 됩니다. 대상 그룹 내의 프로토콜과 포트는 대상 그룹이 1이든 2든 무조건 스프링 부트 컨테이너의 포트로 통일하세요!!
-  - 대상그룹을 만들 때는 VPC가 여러 개일 경우 VPC를 정확하게 선택해야 합니다. 대부분은 default로 하면 됩니다. 왜나면 VPC를 다수를 운영ㅎ라지 않는 이상 그게 유일한 VPC이기 때문입니다. 그리고 굳이 서브넷 IP를 추가할 필요는 없습니다.
+  - 대상그룹을 만들 때는 VPC가 여러 개일 경우 VPC를 정확하게 선택해야 합니다. 대부분은 default로 하면 됩니다. 왜나면 VPC를 다수를 운영하지 않는 이상 그게 유일한 VPC이기 때문입니다. 그리고 굳이 서브넷 IP는 추가하면 안 됩니다.
 - ECS 서비스는 AWS 콘솔로 만들기보다는 자습서의 해당 부분([링크](https://docs.aws.amazon.com/ko_kr/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-cluster))에서 안내하는대로 aws cli와 create-service.json 파일을 이용해서 만들길 바랍니다. ecs service를 만들 때 브라우저 콘솔에서 만들면 deployment controller type을 CODE_DEPLOY로 설정할 수가 없기 때문입니다.
 - ECS 내부에서 만들어진 스프링 컨테이너가 RDS DB & ElastiCache Valkey(aws 버전 레디스)와 통신이 안 될 수 있습니다. 이때는 RDS & Valkey의 인바운드 규칙에 ECS Service의 보안규칙을 추가해주면 됩니다.
 - 상용 환경의 Valkey는 SSL/TLS 인증을 사용하기도 합니다. 이 때는 application.yml과 RedisConfig.java 클래스에서 적절한 값과 설정을 추가해줘야 하며, Valkey 에 등록된 유저가 사용할 수 있는 레디스 명령어의 권한을 @all 로 열어놔야 합니다. 그래야 스프링 부트 컨테이너가 초기에 레디스와 연결을 맺고 검증하는 과정에서 Redis 관련 Exception 이 뜨는 것을 가장 쉽게 막을 수 있습니다. 초기에 Redis 관련 Exception이 계속 뜨면 헬스체크가 실패하게 되고 이는 위에서 설명한 'ECS service의 무한루프'를 초래합니다.
